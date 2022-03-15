@@ -1,5 +1,22 @@
 import { useState } from "react";
 
+const Tittle = ({ text }) => {
+  return <h2>Anecdote {text}</h2>;
+};
+
+const Button = ({ text, handleClick }) => {
+  return <button onClick={handleClick}>{text}</button>;
+};
+
+export const Anecdote = ({ anecdote, votes }) => {
+  return (
+    <>
+      <p>{anecdote}</p>
+      <p>Has {votes} votes</p>
+    </>
+  );
+};
+
 const App = () => {
   const [selected, setSelected] = useState(0);
   const [voteArray, setVoteArray] = useState([0, 0, 0, 0, 0, 0, 0]);
@@ -16,20 +33,32 @@ const App = () => {
   const handleClick = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length));
   };
+
   const handleVote = () => {
     const voteAux = [...voteArray];
     voteAux[selected] += 1;
     setVoteArray(voteAux);
   };
 
+  const popularQuote = () => {
+    const quoteAux = Math.max(...voteArray);
+    const index = voteArray.indexOf(quoteAux);
+    return index;
+  };
+
   return (
-    <div>
-      <p>{anecdotes[selected]}</p>
-      <p>Has {voteArray[selected]} votes</p>
-      <div>
-        <button onClick={handleVote}>vote</button>
-        <button onClick={handleClick}>next anecdote</button>
+    <div className="content">
+      <Tittle text={"of the day."} />
+      <Anecdote anecdote={anecdotes[selected]} votes={voteArray[selected]} />
+      <div className="buttons">
+        <Button handleClick={handleVote} text={"vote"} />
+        <Button handleClick={handleClick} text={"next anecdote"} />
       </div>
+      <Tittle text={"with the most votes."} />
+      <Anecdote
+        anecdote={anecdotes[popularQuote()]}
+        votes={voteArray[popularQuote()]}
+      />
     </div>
   );
 };
