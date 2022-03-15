@@ -12,12 +12,22 @@ const Stadistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
   return (
     <>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>All: {total}</p>
-      <p>Average: {(good - bad) / total}</p>
-      <p>Positive: {good / total}</p>
+      <StadisticsLine text="Good:" value={good} />
+      <StadisticsLine text="Neutral:" value={neutral} />
+      <StadisticsLine text="Bad:" value={bad} />
+      <StadisticsLine text="All:" value={total} />
+      <StadisticsLine text="Average:" value={(good-bad)/ total} />
+      <StadisticsLine text="Positive:" value={good / total} />
+    </>
+  );
+};
+
+const StadisticsLine = ({ text, value }) => {
+  return (
+    <>
+      <p>
+        {text} {value}
+      </p>
     </>
   );
 };
