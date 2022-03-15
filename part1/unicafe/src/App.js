@@ -7,7 +7,7 @@ const Button = ({ name, handleClick }) => {
     </>
   );
 };
-
+//Did it before i was told to do so o.o
 const Stadistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
   return (
