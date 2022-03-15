@@ -7,27 +7,43 @@ const Button = ({ name, handleClick }) => {
     </>
   );
 };
-//Did it before i was told to do so o.o
+
 const Stadistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
   return (
-    <>
-      <StadisticsLine text="Good:" value={good} />
-      <StadisticsLine text="Neutral:" value={neutral} />
-      <StadisticsLine text="Bad:" value={bad} />
-      <StadisticsLine text="All:" value={total} />
-      <StadisticsLine text="Average:" value={(good-bad)/ total} />
-      <StadisticsLine text="Positive:" value={good / total} />
-    </>
+    <table>
+      <tbody>
+        <tr>
+          <StadisticsLine text="Good:" value={good} />
+        </tr>
+        <tr>
+          <StadisticsLine text="Neutral:" value={neutral} />
+        </tr>
+        <tr>
+          <StadisticsLine text="Bad:" value={bad} />
+        </tr>
+        <tr>
+          <StadisticsLine text="All:" value={total} />
+        </tr>
+        <tr>
+          <StadisticsLine text="Average:" value={(good - bad) / total} />
+        </tr>
+        <tr>
+          <StadisticsLine
+            text="Positive:"
+            value={Math.round((good / total) * 1000) / 10 + "%"}
+          />
+        </tr>
+      </tbody>
+    </table>
   );
 };
 
 const StadisticsLine = ({ text, value }) => {
   return (
     <>
-      <p>
-        {text} {value}
-      </p>
+      <td>{text}</td>
+      <td>{value}</td>
     </>
   );
 };
