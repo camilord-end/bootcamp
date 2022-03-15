@@ -12,15 +12,9 @@ const Content = ({
 }) => {
   return (
     <>
-      <p>
-        {part1} {exercises1}
-      </p>
-      <p>
-        {part2} {exercises2}
-      </p>
-      <p>
-        {part3} {exercises3}
-      </p>
+      <Part name={part1} number={exercises1} />
+      <Part name={part2} number={exercises2} />
+      <Part name={part3} number={exercises3} />
     </>
   );
 };
@@ -29,6 +23,16 @@ const Total = ({ exercises1, exercises2, exercises3 }) => {
   return (
     <>
       <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+    </>
+  );
+};
+
+export const Part = ({ name, number }) => {
+  return (
+    <>
+      <p>
+        {name} {number}
+      </p>
     </>
   );
 };
