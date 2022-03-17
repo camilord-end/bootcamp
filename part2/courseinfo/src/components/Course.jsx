@@ -1,7 +1,7 @@
 import Content from "./Content";
 import Total from "./Total";
+import Header from "./Header";
 
-const Header = ({ id, text }) => <h1 key={id}>{text}</h1>;
 
 const Course = ({ course }) => {
   //console.log(course);
