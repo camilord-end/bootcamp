@@ -1,8 +1,8 @@
 const Header = ({ id,text }) => <h1 key={id}>{text}</h1>
 
-const Total = ({ sum }) => {
+const Total = ({ parts }) => {
   return (
-    <p>Number of exercises {sum}</p>
+    <p>Total of {parts[0].exercises + parts[1].exercises + parts[2].exercises} exercises</p>
   )
 }
 
@@ -32,6 +32,7 @@ const Course = ({course}) => {
     <div className="course">
       <Header text={course.name} id={course.id}/>
       <Content parts={course.parts}/>
+      <Total parts={course.parts}/>
     </div>
   )
 }
