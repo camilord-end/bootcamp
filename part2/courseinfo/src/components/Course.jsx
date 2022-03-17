@@ -1,39 +1,22 @@
+import Content from "./Content";
+import Total from "./Total";
+
 const Header = ({ id, text }) => <h1 key={id}>{text}</h1>;
 
-const Total = ({ parts }) => {
-  const total = parts.reduce((a, b) => {
-    return { exercises: a.exercises + b.exercises };
-  });
-  return <p>Total of {total.exercises} exercises</p>;
-};
-
-const Part = ({ part }) => (
-  <>
-    {part.name} {part.exercises}
-  </>
-);
-
-const Content = ({ parts }) => {
+const Course = ({ course }) => {
+  //console.log(course);
   return (
     <>
-      {parts.map((p) => {
+      {course.map((c) => {
         return (
-          <p key={p.id}>
-            <Part part={p} />
-          </p>
+          <div key={c.id} className="courses">
+            <Header text={c.name} id={c.id} />
+            <Content parts={c.parts} />
+            <Total parts={c.parts} />
+          </div>
         );
       })}
     </>
-  );
-};
-
-const Course = ({ course }) => {
-  return (
-    <div className="course">
-      <Header text={course.name} id={course.id} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
-    </div>
   );
 };
 
