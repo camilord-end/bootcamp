@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { Contacts } from "./components/Contacts.jsx";
+import { Filter } from "./components/Filter.jsx";
+import { Form } from "./components/Form.jsx";
+import { Subtittle } from "./components/Subtittle.jsx";
+import { Tittle } from "./components/Tittle.jsx";
 
 const App = () => {
   const [newName, setNewName] = useState("");
@@ -19,7 +24,7 @@ const App = () => {
     },
   ]);
 
-  const handleChange = (event) => {
+  const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
 
@@ -50,40 +55,22 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1 className="tittle">Phonebook</h1>
-      <div className="filter">
-        Search: <input onChange={handleFilterChange} value={filter} />
+      <Tittle text="Phonebook" />
+      <Filter handler={handleFilterChange} filter={filter} />
+      <div className="form-container">
+        <Subtittle text="Add new Contact" />
+        <Form
+          handleSubmit={handleSubmit}
+          handleName={handleNameChange}
+          handlePhone={handlePhoneChange}
+          name={newName}
+          phone={phone}
+        />
       </div>
-      <h2 className="subtittle">Add New Phone</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="input-name-box">
-          Name: <input onChange={handleChange} value={newName} />
-        </div>
-        <div className="input-number-box">
-          Number:
-          <input onChange={handlePhoneChange} value={phone} type="text" />
-        </div>
-        <div className="submit-button">
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <ul>
-        {persons
-          .filter((person) => {
-            if (person.name.toLowerCase().includes(filter.toLowerCase()))
-              return true;
-          })
-          .map((person) => {
-            return (
-              <li key={person.name}>
-                <span className="name-span">{person.name}</span>
-                {" - "}
-                <span className="phone-span">{person.phone}</span>
-              </li>
-            );
-          })}
-      </ul>
+      <div className="contact-container">
+        <Subtittle text="Contacts" />
+        <Contacts persons={persons} filter={filter} />
+      </div>
     </div>
   );
 };
