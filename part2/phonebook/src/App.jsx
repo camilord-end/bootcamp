@@ -1,28 +1,25 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Contacts } from "./components/Contacts.jsx";
 import { Filter } from "./components/Filter.jsx";
 import { Form } from "./components/Form.jsx";
 import { Subtittle } from "./components/Subtittle.jsx";
 import { Tittle } from "./components/Tittle.jsx";
+import axios from "axios";
 
 const App = () => {
   const [newName, setNewName] = useState("");
   const [phone, setPhone] = useState("");
   const [filter, setFilter] = useState("");
-  const [persons, setPersons] = useState([
-    {
-      name: "Arto Hellas",
-      phone: "3214567898",
-    },
-    {
-      name: "Julian Orozco",
-      phone: "3124990523",
-    },
-    {
-      name: "Pepito Perez",
-      phone: "9876543210",
-    },
-  ]);
+  const [persons, setPersons] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons') 
+      .then((response)=>{
+        setPersons(response.data)
+      })
+  }, [])
+  
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -39,12 +36,11 @@ const App = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const includedNames = persons.map((p) => p.name);
-    //console.log(includedNames);
     if (newName && phone) {
       if (includedNames.includes(newName)) {
         alert(`${newName} is already in the phonebook`);
       } else {
-        setPersons([...persons, { name: newName, phone: phone }]);
+        setPersons([...persons, { name: newName, number: phone, id: persons.length }]);
         setNewName("");
         setPhone("");
       }

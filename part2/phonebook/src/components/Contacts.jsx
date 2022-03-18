@@ -9,8 +9,8 @@ export const Contacts = ({ persons, filter }) => {
         .map((person) => {
           return (
             <p key={person.name}>
-              {person.name + " - "}
-              <span className="phone-span">{person.phone}</span>
+              {person.name + "  "}
+              <span className="phone-span">{person.number}</span>
             </p>
           );
         })}
