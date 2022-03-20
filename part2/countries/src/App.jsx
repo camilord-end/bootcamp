@@ -30,23 +30,21 @@ function App() {
     <div className="app-container">
       <Tittle text="Country Info DB" />
       <Filter handler={handleInputChange} value={input} />
-
       <div className="results-container">
-        <h2>Results: </h2>
+        <h2 className="results-title">Results: </h2>
         {filteredData().length < 10 && filteredData().length > 1
           ? filteredData().map((country) => {
               return (
-                <CountryList
-                  key={country.name.common}
-                  name={country.name.common}
-                />
+                <div key={country.name.common} className="country">
+                  <CountryList data={country} />
+                </div>
               );
             })
           : filteredData().length === 1
           ? filteredData().map((country) => {
               return (
                 <CountryDetails
-                  key={country.name.common}
+                  key={country.ccn3}
                   name={country.name.common}
                   capital={country.capital}
                   languages={country.languages}
@@ -55,7 +53,6 @@ function App() {
                   subregion={country.subregion}
                   area={country.area}
                   population={country.population}
-                  borders={country.borders}
                 />
               );
             })

@@ -1,5 +1,6 @@
-import { Borders } from "./Borders";
+import { Detail } from "./Detail";
 import { Languages } from "./Languages";
+import { CountryTittle } from "./CountryTittle";
 
 export const CountryDetails = ({
   name,
@@ -10,20 +11,18 @@ export const CountryDetails = ({
   flag,
   area,
   population,
-  borders,
 }) => {
   return (
-    <div className={`${name.toLowerCase()}-container`}>
-      <h3>
-        {name} <span>{flag}</span>
-      </h3>
-      <p>Capital: {capital}</p>
-      <p>Population: {population}</p>
-      <p>Region: {region}</p>
-      <p>SubRegion: {subregion}</p>
-      <p>Area: {area}</p>
-      <Borders borders={borders} />
+    <>
+      <CountryTittle name={name} flag={flag} />
+      <div className="country-details">
+        <Detail detail={capital} text="Capital" />
+        <Detail detail={population} text="Population" />
+        <Detail detail={region} text="Region" />
+        <Detail detail={subregion} text="Subregion" />
+        <Detail detail={area} text="Area" />
+      </div>
       <Languages languages={languages} />
-    </div>
+    </>
   );
 };
