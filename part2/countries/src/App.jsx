@@ -8,6 +8,7 @@ import { CountryList } from "./components/CountryList";
 function App() {
   const [input, setInput] = useState("");
   const [countries, setCountries] = useState([]);
+
   const handleInputChange = (event) => {
     setInput(event.target.value);
   };

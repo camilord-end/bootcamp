@@ -1,6 +1,7 @@
-import { Detail } from "./Detail";
-import { Languages } from "./Languages";
-import { CountryTittle } from "./CountryTittle";
+import { Detail } from "./Detail.jsx";
+import { Languages } from "./Languages.jsx";
+import { CountryTittle } from "./CountryTittle.jsx";
+import { Weather } from "./Weather.jsx";
 
 export const CountryDetails = ({
   name,
@@ -23,6 +24,7 @@ export const CountryDetails = ({
         <Detail detail={area} text="Area" />
       </div>
       <Languages languages={languages} />
+      <Weather city={capital}/>
     </>
   );
 };
