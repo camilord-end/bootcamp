@@ -6,6 +6,7 @@ import { Subtittle } from "./components/Subtittle.jsx";
 import { Tittle } from "./components/Tittle.jsx";
 import { getAllContacts } from "./services/contacts/getAllContacts.js";
 import { createContact } from "./services/contacts/createContact.js";
+import { deleteContact } from "./services/contacts/deleteContact.js";
 
 const App = () => {
   const [newName, setNewName] = useState("");
@@ -53,6 +54,22 @@ const App = () => {
     }
   };
 
+  const handleDelete = (event) => {
+    const id = event.target.id;
+    const name = event.target.name;
+    const message = `Are you sure about deleting ${name} from your contacts ?`;
+    const result = window.confirm(message);
+
+    result &&
+      deleteContact(id).then(() => {
+        getAllContacts().then((contacts) => {
+          setPersons(contacts);
+        });
+        setNewName("");
+        setPhone("");
+      });
+  };
+
   return (
     <div className="container">
       <Tittle text="Phonebook" />
@@ -69,7 +86,11 @@ const App = () => {
       </div>
       <div className="contact-container">
         <Subtittle text="Contacts" />
-        <Contacts persons={persons} filter={filter} />
+        <Contacts
+          persons={persons}
+          filter={filter}
+          handleDelete={(event) => handleDelete(event)}
+        />
       </div>
     </div>
   );

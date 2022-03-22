@@ -1,4 +1,4 @@
-export const Contacts = ({ persons, filter }) => {
+export const Contacts = ({ persons, filter, handleDelete }) => {
   return (
     <div className="contacts-container">
       {persons
@@ -10,7 +10,10 @@ export const Contacts = ({ persons, filter }) => {
           return (
             <p key={person.name}>
               {person.name + "  "}
-              <span className="phone-span">{person.number}</span>
+              <span className="phone-span">{person.number}</span>{" "}
+              <button id={person.id} name={person.name} onClick={handleDelete}>
+                remove
+              </button>
             </p>
           );
         })}
