@@ -4,7 +4,8 @@ import { Filter } from "./components/Filter.jsx";
 import { Form } from "./components/Form.jsx";
 import { Subtittle } from "./components/Subtittle.jsx";
 import { Tittle } from "./components/Tittle.jsx";
-import axios from "axios";
+import { getAllContacts } from "./services/contacts/getAllContacts.js";
+import { createContact } from "./services/contacts/createContact.js";
 
 const App = () => {
   const [newName, setNewName] = useState("");
@@ -13,8 +14,8 @@ const App = () => {
   const [persons, setPersons] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
+    getAllContacts().then((contacts) => {
+      setPersons(contacts);
     });
   }, []);
 
@@ -32,22 +33,20 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const postURL = "http://localhost:3001/persons";
     const newContact = {
       name: newName,
       number: phone,
     };
-    const includedNames = persons.map((p) => p.name);
+    const includedNames = persons.map((p) => p.name.toLowerCase());
     if (newName && phone) {
-      if (includedNames.includes(newName)) {
+      if (includedNames.includes(newName.toLowerCase())) {
         alert(`${newName} is already in the phonebook`);
       } else {
-        setPersons([...persons, newContact]);
-        setNewName("");
-        setPhone("");
-        axios
-          .post(postURL, newContact)
-          .then((response) => console.log("Contact added to the db", response));
+        createContact(newContact).then((contact) => {
+          setPersons([...persons, contact]);
+          setNewName("");
+          setPhone("");
+        });
       }
     } else {
       alert("Neither name or phone can be empty");
