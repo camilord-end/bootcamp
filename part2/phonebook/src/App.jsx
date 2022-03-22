@@ -7,6 +7,7 @@ import { Tittle } from "./components/Tittle.jsx";
 import { getAllContacts } from "./services/contacts/getAllContacts.js";
 import { createContact } from "./services/contacts/createContact.js";
 import { deleteContact } from "./services/contacts/deleteContact.js";
+import { updateContact } from "./services/contacts/updateContact.js";
 
 const App = () => {
   const [newName, setNewName] = useState("");
@@ -34,6 +35,7 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const msg = `${newName} is already in the phonebook,replace the old number with the new one you typed ?`;
     const newContact = {
       name: newName,
       number: phone,
@@ -41,7 +43,17 @@ const App = () => {
     const includedNames = persons.map((p) => p.name.toLowerCase());
     if (newName && phone) {
       if (includedNames.includes(newName.toLowerCase())) {
-        alert(`${newName} is already in the phonebook`);
+        const changedPerson = persons.find((p) => p.name === newName);
+        const update = window.confirm(msg);
+        const changedContact = { ...changedPerson, number: phone };
+        update &&
+          updateContact(changedContact).then(() => {
+            getAllContacts().then((contacts) => {
+              setPersons(contacts);
+            });
+            setNewName("");
+            setPhone("");
+          });
       } else {
         createContact(newContact).then((contact) => {
           setPersons([...persons, contact]);
