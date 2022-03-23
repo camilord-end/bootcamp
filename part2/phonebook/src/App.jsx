@@ -8,12 +8,14 @@ import { getAllContacts } from "./services/contacts/getAllContacts.js";
 import { createContact } from "./services/contacts/createContact.js";
 import { deleteContact } from "./services/contacts/deleteContact.js";
 import { updateContact } from "./services/contacts/updateContact.js";
+import { Notification } from "./components/Notification.jsx";
 
 const App = () => {
   const [newName, setNewName] = useState("");
   const [phone, setPhone] = useState("");
   const [filter, setFilter] = useState("");
   const [persons, setPersons] = useState([]);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     getAllContacts().then((contacts) => {
@@ -48,21 +50,32 @@ const App = () => {
         const changedContact = { ...changedPerson, number: phone };
         update &&
           updateContact(changedContact).then(() => {
+            setMessage("Updated with no problems <3");
             getAllContacts().then((contacts) => {
               setPersons(contacts);
             });
             setNewName("");
             setPhone("");
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
           });
       } else {
         createContact(newContact).then((contact) => {
+          setMessage("Created with no problems <3");
           setPersons([...persons, contact]);
           setNewName("");
           setPhone("");
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
         });
       }
     } else {
-      alert("Neither name or phone can be empty");
+      setMessage("Can create with those inputs");
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
   };
 
@@ -73,18 +86,30 @@ const App = () => {
     const result = window.confirm(message);
 
     result &&
-      deleteContact(id).then(() => {
-        getAllContacts().then((contacts) => {
-          setPersons(contacts);
+      deleteContact(id)
+        .then(() => {
+          getAllContacts().then((contacts) => {
+            setPersons(contacts);
+          });
+          setMessage("Deleted with no problem");
+          setNewName("");
+          setPhone("");
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        })
+        .catch((err) => {
+          setMessage("Cant delete that item rigth now", err);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
         });
-        setNewName("");
-        setPhone("");
-      });
   };
 
   return (
     <div className="container">
       <Tittle text="Phonebook" />
+      <Notification message={message} />
       <Filter handler={handleFilterChange} filter={filter} />
       <div className="form-container">
         <Subtittle text="Add new Contact" />
